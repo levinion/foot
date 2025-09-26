@@ -11,7 +11,15 @@ patch: foot
 clean:
 	rm -rf foot build
 
-.PHONY: patch install clean
+update:
+	${MAKE} clean
+	${MAKE} install
+
+version: foot
+	@cd foot &&\
+  git describe --tags --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+
+.PHONY: patch install clean update version
 
 build: patch
 	cd foot && ./pgo/pgo.sh auto . ./build
